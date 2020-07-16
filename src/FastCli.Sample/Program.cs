@@ -12,8 +12,8 @@ namespace FastCli.Sample
                 .Use(new JsonConfiguration("local.appsettings.json"))
                 .Use(new EnvironmentConfiguration("CLI_"))
                 .Use(new SecretConfiguration())
-                .Use(new ArgumentConfiguration(args))
-                .StartAsync()
+              .Use(new ArgumentConfiguration(args))
+               .StartAsync()
         }
     }
 
@@ -34,5 +34,9 @@ namespace FastCli.Sample
             serviceCollection.AddTransient<ILogger, Logger>();
         }
 
+    }
+
+    public class SampleCommand : Command
+    {
     }
 }
