@@ -9,34 +9,30 @@ namespace FastCli.Sample
             Console.WriteLine("Let's Go! FastCli");
 
             await new MainHost()
-                .Use(new JsonConfiguration("local.appsettings.json"))
-                .Use(new EnvironmentConfiguration("CLI_"))
-                .Use(new SecretConfiguration())
-              .Use(new ArgumentConfiguration(args))
-               .StartAsync()
+                .Use(new ArgumentConfiguration(args))
+                .StartAsync();
         }
     }
 
     public class MainHost : CliHost
     {
-        protected override void OnRegister(CommandBuilder builder)
+        protected virtual void ConfigureCommands(CommandBuilder builder)
         {
             builder
-                .Register<SampleCommand>()
-                    .WithSubCommand<HelloCommand>()
-                    .WithSubCommand<WorldCommand>()
-                .Register<MessengerCommand>()
-                    .WithSubCommand<SenderCommand>();
+                .AddVerb("env", "Manages the environment.")
+                    .RegisterCommand<InitCommand>()
+                    .RegisterCommand<InfoCommand>()
         }
 
-        protected override void OnConfigureServices(IServiceCollection serviceCollection)
+        protected virtual void ConfigureServices(IServiceCollection services)
         {
-            serviceCollection.AddTransient<ILogger, Logger>();
+            services
+                .AddDefaults()
+                .AddTransient<InitCommand>()
+                .AddTransient<InitController>()
+                .AddTransient<InfoCommand>()
+                .AddTransient<InfoController>();
         }
-
     }
 
-    public class SampleCommand : Command
-    {
-    }
 }
