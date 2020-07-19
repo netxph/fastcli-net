@@ -2,7 +2,7 @@
 
 namespace FastCli
 {
-    public class Class1
+    public class CliHost
     {
     }
 }

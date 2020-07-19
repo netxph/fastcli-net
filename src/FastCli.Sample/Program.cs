@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Threading.Tasks;
+using FastCli.Sample.ViewInterfaces;
+using FastCli.Sample.Controllers;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace FastCli.Sample
 {
     class Program
     {
-        static async void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("Let's Go! FastCli");
 
@@ -20,19 +25,37 @@ namespace FastCli.Sample
         {
             builder
                 .AddVerb("env", "Manages the environment.")
-                    .RegisterCommand<InitCommand>()
-                    .RegisterCommand<InfoCommand>()
+                    .RegisterCommand<InfoCommand>();
         }
 
         protected virtual void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddDefaults()
-                .AddTransient<InitCommand>()
-                .AddTransient<InitController>()
                 .AddTransient<InfoCommand>()
                 .AddTransient<InfoController>();
         }
+    }
+
+    public class InfoCommand : ViewCommand, IInfoCommand
+    {
+        public string IsDetailed { get; set; }
+
+        public InfoCommand(InfoController controller, IConsole console, ILogger logger)
+            : base(console, logger)
+        {
+        }
+
+        protected virtual void SetOptions()
+        {
+
+        }
+
+        public virtual void Run()
+        {
+        }
+
+         
     }
 
 }
