@@ -21,14 +21,14 @@ namespace FastCli.Sample
 
     public class MainHost : CliHost
     {
-        protected virtual void ConfigureCommands(CommandBuilder builder)
+        protected override void ConfigureCommands(CommandBuilder builder)
         {
             builder
                 .AddVerb("env", "Manages the environment.")
                     .RegisterCommand<InfoCommand>();
         }
 
-        protected virtual void ConfigureServices(IServiceCollection services)
+        protected override void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddDefaults()
