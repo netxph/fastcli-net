@@ -1,20 +1,20 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FastCli
 {
     public class CliHost
     {
-        private readonly List<IConfigurationSource> _sources;
+        private readonly ConfigurationAggregator _sources;
         private readonly CommandBuilder _builder;
+        private string _description;
 
         protected IEnumerable<IConfigurationSource> Sources { get { return _sources; } }
 
         public CliHost()
         {
-            _sources = new List<IConfigurationSource>();
+            _sources = new ConfigurationAggregator();
             _builder = new CommandBuilder();
         }
 
@@ -28,6 +28,13 @@ namespace FastCli
             return this;
         }
 
+        public CliHost Describe(string description)
+        {
+            _description = description;
+
+            return this;
+        }
+
         protected virtual void ConfigureCommands(CommandBuilder builder)
         {
         }
@@ -36,9 +43,10 @@ namespace FastCli
         {
         }
 
-        public Task StartAsync()
+        public void Start()
         {
-            throw new NotImplementedException();
+            var root = new RootCommand(_description);
+            root.Invoke(_sources.ToArgs());
         }
     }
 }

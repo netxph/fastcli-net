@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using FastCli.Sample.ViewInterfaces;
+﻿using FastCli.Sample.ViewInterfaces;
 using FastCli.Sample.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,13 +7,12 @@ namespace FastCli.Sample
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
-            Console.WriteLine("Let's Go! FastCli");
-
-            await new MainHost()
+            new MainHost()
+                .Describe("This is a sample scaffold of FastCli")
                 .Use(new ArgumentConfiguration(args))
-                .StartAsync();
+                .Start();
         }
     }
 
@@ -54,7 +51,6 @@ namespace FastCli.Sample
         public virtual void Run()
         {
         }
-
          
     }
 
