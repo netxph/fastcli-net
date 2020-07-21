@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.CommandLine;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace FastCli
 {
@@ -46,6 +47,7 @@ namespace FastCli
         public void Start()
         {
             var root = new RootCommand(_description);
+            
             root.Invoke(_sources.ToArgs());
         }
     }
