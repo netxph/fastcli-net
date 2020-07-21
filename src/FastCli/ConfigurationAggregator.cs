@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FastCli
 {
@@ -33,7 +34,17 @@ namespace FastCli
 
         public string ToArgs()
         {
-            return "--help";
+            var args = new Dictionary<string, Argument>();
+
+            foreach(var source in _internal)
+            {
+                foreach(var arg in source.Arguments)
+                {
+                    args[arg.Name] = arg;
+                }
+            }
+
+            return string.Join(" ", args.Values.Select(v => v.ToString()));
         }
 
     }
