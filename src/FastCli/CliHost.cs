@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.CommandLine;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace FastCli
 {
     public class CliHost
     {
         private readonly ConfigurationAggregator _sources;
-        private readonly CommandBuilder _builder;
         private string _description;
 
         protected IEnumerable<IConfigurationSource> Sources { get { return _sources; } }
@@ -16,7 +14,6 @@ namespace FastCli
         public CliHost()
         {
             _sources = new ConfigurationAggregator();
-            _builder = new CommandBuilder();
         }
 
         public CliHost Use(IConfigurationSource source)
@@ -46,8 +43,20 @@ namespace FastCli
 
         public void Start()
         {
+            var services = new ServiceCollection();
+            ConfigureServices(services);
+            var provider = services.BuildServiceProvider();
+
+            var builder = new CommandBuilder(provider);
+            ConfigureCommands(builder);
+
             var root = new RootCommand(_description);
-            
+
+            foreach(var command in builder.GetCommands())
+            {
+                root.AddCommand(command);
+            }
+
             root.Invoke(_sources.ToArgs());
         }
     }

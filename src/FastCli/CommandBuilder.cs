@@ -1,17 +1,48 @@
 using System;
+using System.Collections.Generic;
+using System.CommandLine;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FastCli
 {
     public class CommandBuilder
     {
-        public CommandBuilder AddVerb(string verb, string description)
+        private readonly IServiceProvider _services;
+        private readonly List<Command> _commands;
+        private Command _current;
+
+        public CommandBuilder(IServiceProvider services)
         {
-            throw new NotImplementedException();
+            _services = services ?? throw new ArgumentNullException(nameof(services));
+            _commands = new List<Command>();
         }
 
-        public void RegisterCommand<T>()
+        public CommandBuilder AddVerb(string verb, string description)
         {
-            throw new NotImplementedException();
+            var command = new Command(verb, description);
+            _current = command;
+            _commands.Add(command);
+
+            return this;
+        }
+
+        public CommandBuilder RegisterCommand<T>()
+            where T: Command
+        {
+            if (_current == null)
+            {
+                throw new ArgumentNullException(nameof(_current));
+            }
+
+            var command = _services.GetService<T>();
+            _current.AddCommand(command);
+
+            return this;
+        }
+
+        public IEnumerable<Command> GetCommands()
+        {
+            return _commands;
         }
     }
 }
