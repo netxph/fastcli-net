@@ -6,7 +6,7 @@ using System;
 
 namespace FastCli.Sample
 {
-    public class InfoCommand : Command, IInfoCommand
+    public class InfoCommand : ViewCommand, IInfoCommand
     {
 
         public string Title { get; set; }
@@ -19,13 +19,14 @@ namespace FastCli.Sample
             }
             set
             {
-                Console.WriteLine(value);
+                _cli.WriteLine(value);
             }
         }
 
         private readonly InfoController _controller;
+        private readonly IConsoleWriter _cli;
 
-        public InfoCommand(InfoController controller)
+        public InfoCommand(InfoController controller, IConsoleWriter writer)
             : base("info", "Gets the information")
         {
             this.AddOption(
@@ -35,6 +36,8 @@ namespace FastCli.Sample
 
             _controller = controller ?? throw new ArgumentNullException(nameof(controller));
             _controller.RegisterView(this);
+
+            _cli = writer ?? throw new ArgumentNullException(nameof(writer));
         }
 
         public void Run(string title)

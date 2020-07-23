@@ -58,8 +58,6 @@ namespace FastCli
                 root.AddCommand(command);
             }
 
-            Console.WriteLine(_sources.ToArgs());
-
             root.Invoke(_sources.ToArgs());
         }
     }

@@ -17,7 +17,8 @@ namespace FastCli.Sample
             services
                 // .AddDefaults()
                 .AddTransient<InfoCommand>()
-                .AddTransient<InfoController>();
+                .AddTransient<InfoController>()
+                .AddTransient<IConsoleWriter, DefaultConsoleWriter>();
         }
     }
 
