@@ -5,6 +5,13 @@ namespace FastCli
 {
     public class View
     {
+        private readonly ViewBuilder _builder;
+
+        public View()
+        {
+            _builder = new ViewBuilder();
+            Configure(_builder);
+        }
 
         protected virtual void Configure(ViewBuilder builder)
         {
@@ -12,7 +19,7 @@ namespace FastCli
 
         public Command GetCommand()
         {
-            throw new NotImplementedException();
+            return _builder.Build();
         }
     }
 }
