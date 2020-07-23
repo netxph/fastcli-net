@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -56,6 +57,8 @@ namespace FastCli
             {
                 root.AddCommand(command);
             }
+
+            Console.WriteLine(_sources.ToArgs());
 
             root.Invoke(_sources.ToArgs());
         }

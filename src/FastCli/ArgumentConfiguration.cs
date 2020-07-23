@@ -48,10 +48,17 @@ namespace FastCli
 
                     while(queue.Any() && !(queue.Peek().StartsWith("--") || queue.Peek().StartsWith("-")))
                     {
-                        values.Add(queue.Dequeue());
+                        var token = queue.Dequeue();
+                        values.Add(token);
                     }
 
-                    arguments.Add(new Argument(name, string.Join(" ", values)));
+                    var value = string.Join(" ", values);
+                    if(value.Contains(" "))
+                    {
+                        value = $"\"{value}\"";
+                    }
+
+                    arguments.Add(new Argument(name, value));
 
                     verbZone = false;
                 }

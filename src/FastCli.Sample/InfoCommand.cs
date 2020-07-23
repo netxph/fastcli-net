@@ -8,21 +8,40 @@ namespace FastCli.Sample
 {
     public class InfoCommand : Command, IInfoCommand
     {
-        public string IsDetailed { get; set; }
+
+        public string Title { get; set; }
+
+        public string Message 
+        {
+            get 
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                Console.WriteLine(value);
+            }
+        }
+
+        private readonly InfoController _controller;
 
         public InfoCommand(InfoController controller)
             : base("info", "Gets the information")
         {
             this.AddOption(
-                new Option("--verbose", "Show detailed information"));
+                new Option<string>("--title", "Sets the title"));
 
-            Handler = CommandHandler.Create<bool>(Run);
+            Handler = CommandHandler.Create<string>(Run);
 
+            _controller = controller ?? throw new ArgumentNullException(nameof(controller));
+            _controller.RegisterView(this);
         }
 
-        public virtual void Run(bool verbose)
+        public void Run(string title)
         {
-            Console.WriteLine($"Hello the value of verbose is {verbose}.");
+            Title = title;
+
+            _controller.Run();
         }
          
     }
