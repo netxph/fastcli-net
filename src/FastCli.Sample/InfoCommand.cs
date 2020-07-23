@@ -6,7 +6,7 @@ using System;
 
 namespace FastCli.Sample
 {
-    public class InfoCommand : ViewCommand, IInfoCommand
+    public class InfoCommand : View, IInfoCommand
     {
 
         public string Title { get; set; }
@@ -27,17 +27,19 @@ namespace FastCli.Sample
         private readonly IConsoleWriter _cli;
 
         public InfoCommand(InfoController controller, IConsoleWriter writer)
-            : base("info", "Gets the information")
         {
-            this.AddOption(
-                new Option<string>("--title", "Sets the title"));
-
-            Handler = CommandHandler.Create<string>(Run);
-
             _controller = controller ?? throw new ArgumentNullException(nameof(controller));
             _controller.RegisterView(this);
 
             _cli = writer ?? throw new ArgumentNullException(nameof(writer));
+        }
+
+        protected override void Configure(ViewBuilder builder)
+        {
+            builder
+                .Describe("info", "Gets the environment information")
+                .WithOption(new Option<string>("--title"))
+                .Execute(CommandHandler.Create<string>(Run));
         }
 
         public void Run(string title)

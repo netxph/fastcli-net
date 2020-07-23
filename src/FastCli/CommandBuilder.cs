@@ -27,15 +27,15 @@ namespace FastCli
         }
 
         public CommandBuilder RegisterCommand<T>()
-            where T: Command
+            where T: View
         {
             if (_current == null)
             {
                 throw new ArgumentNullException(nameof(_current));
             }
 
-            var command = _services.GetService<T>();
-            _current.AddCommand(command);
+            var view = _services.GetService<T>();
+            _current.AddCommand(view.GetCommand());
 
             return this;
         }
