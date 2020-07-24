@@ -8,6 +8,7 @@ namespace FastCli.Sample
         protected override void ConfigureCommands(CommandBuilder builder)
         {
             builder
+                .AddVerb<StatusCommand>()
                 .AddVerb("env", "Manages the environment.")
                     .RegisterCommand<InfoCommand>();
         }
@@ -18,7 +19,9 @@ namespace FastCli.Sample
                 // .AddDefaults()
                 .AddTransient<InfoCommand>()
                 .AddTransient<InfoController>()
+                .AddTransient<StatusCommand>()
                 .AddTransient<IConsoleWriter, DefaultConsoleWriter>();
+                
         }
     }
 

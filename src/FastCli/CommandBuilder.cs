@@ -26,6 +26,18 @@ namespace FastCli
             return this;
         }
 
+        public CommandBuilder AddVerb<T>()
+            where T: View
+        {
+            var view = _services.GetService<T>();
+            var command = view.GetCommand();
+            _current = command;
+
+            _commands.Add(command);
+
+            return this;
+        }
+
         public CommandBuilder RegisterCommand<T>()
             where T: View
         {
