@@ -1,7 +1,7 @@
 using System;
 using System.CommandLine;
 
-namespace FastCli
+namespace FastCli.Hosting
 {
     public class View
     {

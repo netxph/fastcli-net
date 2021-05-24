@@ -1,5 +1,6 @@
 ﻿using FastCli.Sample.Controllers;
 using Microsoft.Extensions.DependencyInjection;
+using FastCli.Hosting;
 
 namespace FastCli.Sample
 {

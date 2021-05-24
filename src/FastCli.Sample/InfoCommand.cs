@@ -1,5 +1,6 @@
 ﻿using FastCli.Sample.ViewInterfaces;
 using FastCli.Sample.Controllers;
+using FastCli.Hosting;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System;

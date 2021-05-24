@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FastCli
+namespace FastCli.Hosting
 {
     public class CliHost
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace FastCli
+namespace FastCli.Hosting
 {
     public static class ServiceCollectionExtensions
     {

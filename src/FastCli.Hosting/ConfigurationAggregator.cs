@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FastCli
+namespace FastCli.Hosting
 {
 
     public class ConfigurationAggregator : IEnumerable<IConfigurationSource>

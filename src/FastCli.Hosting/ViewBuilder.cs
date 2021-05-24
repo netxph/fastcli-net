@@ -3,7 +3,7 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Collections.Generic;
 
-namespace FastCli
+namespace FastCli.Hosting
 {
     public class ViewBuilder
     {

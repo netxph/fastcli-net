@@ -1,4 +1,6 @@
-﻿namespace FastCli.Sample
+﻿using FastCli.Hosting;
+
+namespace FastCli.Sample
 {
     class Program
     {

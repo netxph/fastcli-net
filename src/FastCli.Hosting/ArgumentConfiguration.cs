@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace FastCli
+namespace FastCli.Hosting
 {
     public class ArgumentConfiguration : IConfigurationSource
     {

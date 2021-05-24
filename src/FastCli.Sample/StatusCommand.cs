@@ -1,5 +1,6 @@
 using System;
 using System.CommandLine.Invocation;
+using FastCli.Hosting;
 
 namespace FastCli.Sample
 {

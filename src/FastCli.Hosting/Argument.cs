@@ -1,6 +1,6 @@
 using System;
 
-namespace FastCli
+namespace FastCli.Hosting
 {
 
     public class Argument

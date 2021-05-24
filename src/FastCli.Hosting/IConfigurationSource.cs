@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FastCli
+namespace FastCli.Hosting
 {
     public interface IConfigurationSource
     {

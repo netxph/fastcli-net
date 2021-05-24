@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FastCli\FastCli.csproj" />
+    <ProjectReference Include="..\FastCli.Hosting\FastCli.Hosting.csproj" />
     <ProjectReference Include="..\FastCli.Sample\FastCli.Sample.csproj" />
   </ItemGroup>
 
