@@ -21,7 +21,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.x
+        dotnet-version: 5.0.x
     - name: Setup NerdBank
       uses: actions/checkout@v2
       with:
@@ -30,8 +30,6 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build -c Release --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
     - name: Package
       run: dotnet pack --no-build -c Release src/FastCli.Hosting/FastCli.Hosting.csproj -o .
     - name: Publish
