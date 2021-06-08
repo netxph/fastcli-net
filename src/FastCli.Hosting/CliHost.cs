@@ -7,21 +7,21 @@ namespace FastCli.Hosting
 {
     public class CliHost
     {
-        private readonly ConfigurationAggregator _sources;
-        private string _description;
+        protected ConfigurationAggregator Sources { get; }
 
-        protected IEnumerable<IConfigurationSource> Sources { get { return _sources; } }
+        public List<Action<RootCommand>> Actions { get; }
 
         public CliHost()
         {
-            _sources = new ConfigurationAggregator();
+            Sources = new ConfigurationAggregator();
+            Actions = new List<Action<RootCommand>>();
         }
 
         public CliHost Use(IConfigurationSource source)
         {
             if(source != null)
             {
-                _sources.Add(source);
+                Sources.Add(source);
             }
 
             return this;
@@ -29,7 +29,7 @@ namespace FastCli.Hosting
 
         public CliHost Describe(string description)
         {
-            _description = description;
+            Actions.Add(root => root.Description = description);
 
             return this;
         }
@@ -42,7 +42,7 @@ namespace FastCli.Hosting
         {
         }
 
-        public void Start()
+        public virtual RootCommand Build()
         {
             var services = new ServiceCollection();
             ConfigureServices(services);
@@ -50,15 +50,28 @@ namespace FastCli.Hosting
 
             var builder = new CommandBuilder(provider);
             ConfigureCommands(builder);
+            var root = new RootCommand();
 
-            var root = new RootCommand(_description);
+            Actions.ForEach(a => a(root));
 
             foreach(var command in builder.GetCommands())
             {
                 root.AddCommand(command);
             }
 
-            root.Invoke(_sources.ToArgs());
+            return root;
+        }
+
+        public void Start()
+        {
+            var root = Build();
+            root.Invoke(Sources.ToArgs());
+        }
+
+        public async void StartAsync()
+        {
+            var root = Build();
+            await root.InvokeAsync(Sources.ToArgs());
         }
     }
 }

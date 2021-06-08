@@ -67,7 +67,6 @@ class Program
     {
         new MainHost()
             .Describe("Greeter Program (c) 2020 All Rights Reserved.")
-            .Use(new EnvironmentConfiguration("CLI_"))
             .Use(new ArgumentConfiguration(args))
             .Start();
     }
