@@ -13,13 +13,12 @@ namespace FastCli.Sample
             await CreateCliHostBuilder(args).Build().RunAsync();
         }
 
-        public static IHostBuilder CreateCliHostBuilder(string[] args)
-        {
-            return CliHost.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateCliHostBuilder(string[] args) =>
+            CliHost
+                .CreateDefaultBuilder(args)
                 .ConfigureCliHostDefaults(builder =>
                     builder.UseStartup<Startup>()
                 );
-        }
     }
 
     public class Startup : ICliStartup
