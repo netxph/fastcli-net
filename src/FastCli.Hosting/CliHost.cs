@@ -1,77 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.CommandLine;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using Microsoft.Extensions.Hosting;
 
 namespace FastCli.Hosting
 {
-    public class CliHost
+    public abstract class CliHost
     {
-        protected ConfigurationAggregator Sources { get; }
+        [ThreadStatic]
+        private static CliHost _current;
 
-        public List<Action<RootCommand>> Actions { get; }
-
-        public CliHost()
+        public static CliHost Current 
         {
-            Sources = new ConfigurationAggregator();
-            Actions = new List<Action<RootCommand>>();
-        }
-
-        public CliHost Use(IConfigurationSource source)
-        {
-            if(source != null)
+            get
             {
-                Sources.Add(source);
+                if(_current == null)
+                {
+                    _current = new DefaultCliHost();
+                }
+
+                return _current;
             }
-
-            return this;
         }
 
-        public CliHost Describe(string description)
+        public static IHostBuilder CreateDefaultBuilder(string[] args)
         {
-            Actions.Add(root => root.Description = description);
-
-            return this;
+            return Current.OnCreateDefaultBuilder(args);
         }
 
-        protected virtual void ConfigureCommands(CommandBuilder builder)
+        protected abstract IHostBuilder OnCreateDefaultBuilder(string[] args);
+
+    }
+
+    public class DefaultCliHost : CliHost
+    {
+        protected override IHostBuilder OnCreateDefaultBuilder(string[] args)
         {
-        }
-
-        protected virtual void ConfigureServices(IServiceCollection services)
-        {
-        }
-
-        public virtual RootCommand Build()
-        {
-            var services = new ServiceCollection();
-            ConfigureServices(services);
-            var provider = services.BuildServiceProvider();
-
-            var builder = new CommandBuilder(provider);
-            ConfigureCommands(builder);
-            var root = new RootCommand();
-
-            Actions.ForEach(a => a(root));
-
-            foreach(var command in builder.GetCommands())
-            {
-                root.AddCommand(command);
-            }
-
-            return root;
-        }
-
-        public void Start()
-        {
-            var root = Build();
-            root.Invoke(Sources.ToArgs());
-        }
-
-        public async void StartAsync()
-        {
-            var root = Build();
-            await root.InvokeAsync(Sources.ToArgs());
+            throw new NotImplementedException();
         }
     }
+
+    public static class CliHostBuilderExtensions
+    {
+        public static IHostBuilder ConfigureCliHostDefaults(this IHostBuilder target, Action<IHostBuilder> builder)
+        {
+            builder(target);
+
+            return target;
+        }
+
+        public static IHostBuilder UseStartup<T>(this IHostBuilder builder)
+            where T: ICliStartup
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
 }

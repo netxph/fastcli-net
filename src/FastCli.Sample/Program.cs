@@ -1,16 +1,39 @@
-﻿using FastCli.Hosting;
+﻿using System.Threading.Tasks;
+using FastCli.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace FastCli.Sample
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            new MainHost()
-                .Describe("This is a sample scaffold of FastCli")
-                .Use(new ArgumentConfiguration(args))
-                .Start();
+            await CreateCliHostBuilder(args).Build().RunAsync();
+        }
+
+        public static IHostBuilder CreateCliHostBuilder(string[] args)
+        {
+            return CliHost.CreateDefaultBuilder(args)
+                .ConfigureCliHostDefaults(builder =>
+                    builder.UseStartup<Startup>()
+                );
         }
     }
 
+    public class Startup : ICliStartup
+    {
+        public IConfiguration Configuration => throw new System.NotImplementedException();
+
+        public void ConfigureCommands(CommandBuilder builder)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ConfigureService(IServiceCollection services)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 }
