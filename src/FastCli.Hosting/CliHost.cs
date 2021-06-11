@@ -34,17 +34,17 @@ namespace FastCli.Hosting
     {
         protected override IHostBuilder OnCreateDefaultBuilder(string[] args)
         {
-            throw new NotImplementedException();
+            return Host.CreateDefaultBuilder(args);
         }
     }
 
     public static class CliHostBuilderExtensions
     {
-        public static IHostBuilder ConfigureCliHostDefaults(this IHostBuilder target, Action<IHostBuilder> builder)
+        public static IHostBuilder ConfigureCliHostDefaults(this IHostBuilder builder, Action<IHostBuilder> onBuild)
         {
-            builder(target);
+            onBuild(builder);
 
-            return target;
+            return builder;
         }
 
         public static IHostBuilder UseStartup<T>(this IHostBuilder builder)
