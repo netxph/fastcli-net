@@ -1,13 +1,15 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace FastCli.Hosting
 {
 
-    public interface ICliStartup
+    public interface ICliStartup 
     {
         IConfiguration Configuration { get; }
-        void ConfigureService(IServiceCollection services);
+        void ConfigureServices(IServiceCollection services);
+        void Configure(IHostBuilder builder);
         void ConfigureCommands(CommandBuilder builder);
     }
 }

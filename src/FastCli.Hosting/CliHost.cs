@@ -34,23 +34,30 @@ namespace FastCli.Hosting
     {
         protected override IHostBuilder OnCreateDefaultBuilder(string[] args)
         {
+            //create a basic builder
+
+//             public class Program
+// {
+//     public static async Task Main(string[] args)
+//     {
+//         var configBuilder = new ConfigurationBuilder()
+//                                 .AddJsonFile("appsettings.json", optional: true);
+//         var config = configBuilder.Build();
+
+//         var sp = new ServiceCollection()
+//             .AddLogging(b => b.AddConsole())
+//             .AddSingleton<IConfiguration>(config)
+//             .AddSingleton<IFooService, FooService>()
+//             .BuildServiceProvider();
+
+//         var logger = sp.GetService<ILoggerFactory>().CreateLogger<Program>();
+//         logger.LogDebug("Starting");
+
+//         var bar = sp.GetService<IFooService>();
+//         await bar.DoAsync();
+//     }
+// }
             return Host.CreateDefaultBuilder(args);
-        }
-    }
-
-    public static class CliHostBuilderExtensions
-    {
-        public static IHostBuilder ConfigureCliHostDefaults(this IHostBuilder builder, Action<IHostBuilder> onBuild)
-        {
-            onBuild(builder);
-
-            return builder;
-        }
-
-        public static IHostBuilder UseStartup<T>(this IHostBuilder builder)
-            where T: ICliStartup
-        {
-            throw new NotImplementedException();
         }
     }
 
